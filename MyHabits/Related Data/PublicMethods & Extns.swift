@@ -2,6 +2,7 @@ import Foundation
 import UIKit
 import AVFoundation
 
+//Автоматическое присвоение имени идентфикатора ячейки для таблиц/коллекций
 extension UIView {
     static var identifier: String {
         return String(describing: self)
@@ -49,6 +50,7 @@ extension UITextField {
                     self.fadeTransition(characterDelay) // это анимация проявления
 }   }   }   }   }
 
+// НЕ ИСПОЛЬЗУЕТСЯ. Планируется добавить функцию при создании новой привычки
 //Трясем текст в выбранном UITextField
 func shakeMeBaby(_ shakedItem: UITextField) {
     let shake = CABasicAnimation(keyPath: "position")

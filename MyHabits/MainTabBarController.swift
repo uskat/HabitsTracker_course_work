@@ -3,11 +3,12 @@ import UIKit
 
 class MainTabBarController: UITabBarController {
 
+    //MARK: - PROPs
     let firstVC = HabitsViewController()
     let secondVC = InfoViewController()
 
     
-//MARK: ==================================== INITs ====================================
+    //MARK: - INITs
     override func viewDidLoad() {
         super.viewDidLoad()
         setupControllers()
@@ -17,15 +18,14 @@ class MainTabBarController: UITabBarController {
         //UIApplication.shared.statusBarUIView?.backgroundColor = colorOfNavBar
         UITabBar.appearance().tintColor = habitPurpleColor
         UITabBar.appearance().backgroundColor = colorOfTabBar
-        
     }
     
     
-//MARK: ================================== ViewITEMs ==================================
+    //MARK: - METHODs
     func setupControllers() {
         firstVC.tabBarItem.title = "Привычки"
         firstVC.tabBarItem.image = UIImage(systemName: "rectangle.grid.2x2")
-        //firstVC.navigationItem.title = "Feed"
+        //firstVC.navigationItem.title = "Сегодня"
         secondVC.tabBarItem.title = "Информация"
         secondVC.tabBarItem.image = UIImage(systemName: "person.crop.circle")
         secondVC.navigationItem.title = "Информация"
@@ -33,8 +33,4 @@ class MainTabBarController: UITabBarController {
         let secondNavigationVC = UINavigationController(rootViewController: secondVC)
         viewControllers = [firstNavigationVC, secondNavigationVC]
     }
-    
-    
-//MARK: =================================== METHODs ===================================
-
 }

@@ -18,10 +18,13 @@
 		0866FA2E28909FCA00A3ED64 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0866FA2D28909FCA00A3ED64 /* MainTabBarController.swift */; };
 		0866FA302890A9FA00A3ED64 /* InfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0866FA2F2890A9FA00A3ED64 /* InfoViewController.swift */; };
 		0866FA322894AC9B00A3ED64 /* HabitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0866FA312894AC9B00A3ED64 /* HabitViewController.swift */; };
+		089B738328A70C4600AF5E23 /* TinyConstraints in Frameworks */ = {isa = PBXBuildFile; productRef = 089B738228A70C4600AF5E23 /* TinyConstraints */; };
+		089B738528AAEB5D00AF5E23 /* InfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 089B738428AAEB5D00AF5E23 /* InfoTableViewCell.swift */; };
 		08A5668F2898818000564407 /* HabitDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A5668E2898817F00564407 /* HabitDetailsViewController.swift */; };
 		08A56691289C9C7100564407 /* HabitDetailsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A56690289C9C7100564407 /* HabitDetailsTableViewCell.swift */; };
 		08A56693289EA85500564407 /* HabitsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A56692289EA85500564407 /* HabitsCollectionViewCell.swift */; };
 		08A56695289EBEDA00564407 /* ProgressCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A56694289EBEDA00564407 /* ProgressCollectionViewCell.swift */; };
+		08A5669728A0076000564407 /* ColorPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A5669628A0076000564407 /* ColorPickerViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,10 +41,12 @@
 		0866FA2D28909FCA00A3ED64 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		0866FA2F2890A9FA00A3ED64 /* InfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoViewController.swift; sourceTree = "<group>"; };
 		0866FA312894AC9B00A3ED64 /* HabitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitViewController.swift; sourceTree = "<group>"; };
+		089B738428AAEB5D00AF5E23 /* InfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoTableViewCell.swift; sourceTree = "<group>"; };
 		08A5668E2898817F00564407 /* HabitDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitDetailsViewController.swift; sourceTree = "<group>"; };
 		08A56690289C9C7100564407 /* HabitDetailsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitDetailsTableViewCell.swift; sourceTree = "<group>"; };
 		08A56692289EA85500564407 /* HabitsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitsCollectionViewCell.swift; sourceTree = "<group>"; };
 		08A56694289EBEDA00564407 /* ProgressCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressCollectionViewCell.swift; sourceTree = "<group>"; };
+		08A5669628A0076000564407 /* ColorPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPickerViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -49,6 +54,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				089B738328A70C4600AF5E23 /* TinyConstraints in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -58,8 +64,6 @@
 		0866FA07288E0A3E00A3ED64 = {
 			isa = PBXGroup;
 			children = (
-				0866FA2B2890958F00A3ED64 /* Constants.swift */,
-				0866FA29289092A700A3ED64 /* PublicMethods & Extns.swift */,
 				0866FA12288E0A3E00A3ED64 /* MyHabits */,
 				0866FA11288E0A3E00A3ED64 /* Products */,
 			);
@@ -80,18 +84,62 @@
 				0866FA15288E0A3E00A3ED64 /* SceneDelegate.swift */,
 				0866FA2D28909FCA00A3ED64 /* MainTabBarController.swift */,
 				0866FA17288E0A3E00A3ED64 /* HabitsViewController.swift */,
-				08A56694289EBEDA00564407 /* ProgressCollectionViewCell.swift */,
-				08A56692289EA85500564407 /* HabitsCollectionViewCell.swift */,
-				0866FA312894AC9B00A3ED64 /* HabitViewController.swift */,
-				08A5668E2898817F00564407 /* HabitDetailsViewController.swift */,
-				08A56690289C9C7100564407 /* HabitDetailsTableViewCell.swift */,
-				0866FA27288E1A0A00A3ED64 /* HabitStore.swift */,
+				089B737E28A704FE00AF5E23 /* ^ HabitsVC */,
+				089B738028A7064500AF5E23 /* CreateOrEditHabit */,
 				0866FA2F2890A9FA00A3ED64 /* InfoViewController.swift */,
+				089B738628AAEB6B00AF5E23 /* ^ InfoVC */,
+				089B737D28A703D400AF5E23 /* Related Data */,
 				0866FA1C288E0A4200A3ED64 /* Assets.xcassets */,
 				0866FA1E288E0A4200A3ED64 /* LaunchScreen.storyboard */,
 				0866FA21288E0A4200A3ED64 /* Info.plist */,
+				089B737B28A7035D00AF5E23 /* Мусор? */,
 			);
 			path = MyHabits;
+			sourceTree = "<group>";
+		};
+		089B737B28A7035D00AF5E23 /* Мусор? */ = {
+			isa = PBXGroup;
+			children = (
+				08A5669628A0076000564407 /* ColorPickerViewController.swift */,
+			);
+			path = "Мусор?";
+			sourceTree = "<group>";
+		};
+		089B737D28A703D400AF5E23 /* Related Data */ = {
+			isa = PBXGroup;
+			children = (
+				0866FA27288E1A0A00A3ED64 /* HabitStore.swift */,
+				0866FA2B2890958F00A3ED64 /* Constants.swift */,
+				0866FA29289092A700A3ED64 /* PublicMethods & Extns.swift */,
+			);
+			path = "Related Data";
+			sourceTree = "<group>";
+		};
+		089B737E28A704FE00AF5E23 /* ^ HabitsVC */ = {
+			isa = PBXGroup;
+			children = (
+				08A56694289EBEDA00564407 /* ProgressCollectionViewCell.swift */,
+				08A56692289EA85500564407 /* HabitsCollectionViewCell.swift */,
+			);
+			path = "^ HabitsVC";
+			sourceTree = "<group>";
+		};
+		089B738028A7064500AF5E23 /* CreateOrEditHabit */ = {
+			isa = PBXGroup;
+			children = (
+				0866FA312894AC9B00A3ED64 /* HabitViewController.swift */,
+				08A5668E2898817F00564407 /* HabitDetailsViewController.swift */,
+				08A56690289C9C7100564407 /* HabitDetailsTableViewCell.swift */,
+			);
+			path = CreateOrEditHabit;
+			sourceTree = "<group>";
+		};
+		089B738628AAEB6B00AF5E23 /* ^ InfoVC */ = {
+			isa = PBXGroup;
+			children = (
+				089B738428AAEB5D00AF5E23 /* InfoTableViewCell.swift */,
+			);
+			path = "^ InfoVC";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -110,6 +158,9 @@
 			dependencies = (
 			);
 			name = MyHabits;
+			packageProductDependencies = (
+				089B738228A70C4600AF5E23 /* TinyConstraints */,
+			);
 			productName = MyHabits;
 			productReference = 0866FA10288E0A3E00A3ED64 /* MyHabits.app */;
 			productType = "com.apple.product-type.application";
@@ -138,6 +189,9 @@
 				Base,
 			);
 			mainGroup = 0866FA07288E0A3E00A3ED64;
+			packageReferences = (
+				089B738128A70C4600AF5E23 /* XCRemoteSwiftPackageReference "TinyConstraints" */,
+			);
 			productRefGroup = 0866FA11288E0A3E00A3ED64 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -170,10 +224,12 @@
 				0866FA18288E0A3E00A3ED64 /* HabitsViewController.swift in Sources */,
 				0866FA2E28909FCA00A3ED64 /* MainTabBarController.swift in Sources */,
 				0866FA14288E0A3E00A3ED64 /* AppDelegate.swift in Sources */,
+				089B738528AAEB5D00AF5E23 /* InfoTableViewCell.swift in Sources */,
 				0866FA16288E0A3E00A3ED64 /* SceneDelegate.swift in Sources */,
 				08A56693289EA85500564407 /* HabitsCollectionViewCell.swift in Sources */,
 				0866FA302890A9FA00A3ED64 /* InfoViewController.swift in Sources */,
 				0866FA322894AC9B00A3ED64 /* HabitViewController.swift in Sources */,
+				08A5669728A0076000564407 /* ColorPickerViewController.swift in Sources */,
 				08A5668F2898818000564407 /* HabitDetailsViewController.swift in Sources */,
 				08A56691289C9C7100564407 /* HabitDetailsTableViewCell.swift in Sources */,
 				0866FA2C2890958F00A3ED64 /* Constants.swift in Sources */,
@@ -325,6 +381,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -353,6 +410,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -388,6 +446,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		089B738128A70C4600AF5E23 /* XCRemoteSwiftPackageReference "TinyConstraints" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/roberthein/TinyConstraints.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		089B738228A70C4600AF5E23 /* TinyConstraints */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 089B738128A70C4600AF5E23 /* XCRemoteSwiftPackageReference "TinyConstraints" */;
+			productName = TinyConstraints;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 0866FA08288E0A3E00A3ED64 /* Project object */;
 }
