@@ -92,17 +92,17 @@
 				0866FA1C288E0A4200A3ED64 /* Assets.xcassets */,
 				0866FA1E288E0A4200A3ED64 /* LaunchScreen.storyboard */,
 				0866FA21288E0A4200A3ED64 /* Info.plist */,
-				089B737B28A7035D00AF5E23 /* Мусор? */,
+				089B737B28A7035D00AF5E23 /* Garbage? */,
 			);
 			path = MyHabits;
 			sourceTree = "<group>";
 		};
-		089B737B28A7035D00AF5E23 /* Мусор? */ = {
+		089B737B28A7035D00AF5E23 /* Garbage? */ = {
 			isa = PBXGroup;
 			children = (
 				08A5669628A0076000564407 /* ColorPickerViewController.swift */,
 			);
-			path = "Мусор?";
+			path = "Garbage?";
 			sourceTree = "<group>";
 		};
 		089B737D28A703D400AF5E23 /* Related Data */ = {

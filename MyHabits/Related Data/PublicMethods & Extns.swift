@@ -52,7 +52,7 @@ extension UITextField {
 
 // НЕ ИСПОЛЬЗУЕТСЯ. Планируется добавить функцию при создании новой привычки
 //Трясем текст в выбранном UITextField
-func shakeMeBaby(_ shakedItem: UITextField) {
+public func shakeMeBaby(_ shakedItem: UITextField) {
     let shake = CABasicAnimation(keyPath: "position")
     let xDelta = CGFloat(3)
     shake.duration = 0.07

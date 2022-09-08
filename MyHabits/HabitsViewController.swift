@@ -3,24 +3,28 @@ import UIKit
 
 protocol HabitsStoreDelegate: AnyObject {
     func reload()
+    func addToHabit(data habit: Habit, isNewHabit: Bool?, usingIndex indexPath: IndexPath?)
 }
 
-class HabitsViewController: UIViewController, HabitsStoreDelegate {
+class HabitsViewController: UIViewController {
 
     //MARK: - ITEMs
     let store = HabitsStore.shared
     let progress = HabitsStore.shared.todayProgress
- 
+    
+    //Кнопка "+" в NavigationBar (для добавления новой привычки)
     private lazy var navigationBarButton: UIBarButtonItem = {
         return $0
     }(UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(tapAddHabbit)))
 
+    //UIView под заголовок "Сегодня"
     private var todayLabelView: UIView = {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.backgroundColor = colorOfNavBar
         return $0
     }(UIView())
     
+    //Заголовок "Сегодня"
     private var todayLabel: UILabel = {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.font = UIFont.systemFont(ofSize: 34, weight: .bold)
@@ -29,6 +33,7 @@ class HabitsViewController: UIViewController, HabitsStoreDelegate {
         return $0
     }(UILabel())
     
+    //основное view под коллекцию привычек
     private var mainView: UIView = {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.backgroundColor = backgroundColorOfHabitsVC
@@ -37,6 +42,7 @@ class HabitsViewController: UIViewController, HabitsStoreDelegate {
         return $0
     }(UIView())
     
+    //Колекция (закомментирован код для создания хедера коллекции)
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -59,10 +65,6 @@ class HabitsViewController: UIViewController, HabitsStoreDelegate {
         showItems()
         print("П,оехали!")
     }
-
-//    override func viewWillAppear(_ animated: Bool) {
-//        reload()
-//    }
     
     override func viewWillDisappear(_ animated: Bool) {
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "Сегодня", style: .plain, target: nil, action: nil)
@@ -76,16 +78,18 @@ class HabitsViewController: UIViewController, HabitsStoreDelegate {
     
     @objc private func tapAddHabbit() {
         let habitVC = HabitViewController()
+        let habitDetailsVC = HabitDetailsViewController()
         let navBarController = UINavigationController(rootViewController: habitVC)
-        navBarController.modalPresentationStyle = .fullScreen
-        habitVC.delegateHabits = self
+        navBarController.modalPresentationStyle = .fullScreen   //принудительное отображение модального окна в полный экран
+        habitDetailsVC.delegate = self
+        habitVC.delegateNew = self   //делегат для обработки отображения новой привычки
         habitVC.title = "Создать"
         habitVC.isNewHabit = true
         habitVC.removeHabitButton.isHidden = true
         present(navBarController, animated: true)
     }
     
-    internal func reload() {
+    internal func reload() {   //Обновление констрейнтов (используется при обработке нажатия на кнопку изменения Статуса привычки)
         self.collectionView.reloadData()
         self.view.layoutIfNeeded()
         self.collectionView.layoutIfNeeded()
@@ -132,7 +136,7 @@ extension HabitsViewController: UICollectionViewDataSource {
         if indexPath.row == 0 {
             let header = collectionView.dequeueReusableCell(withReuseIdentifier: ProgressCollectionViewCell.identifier, for: indexPath) as! ProgressCollectionViewCell
             header.setupCell(progress)
-            header.delegate = self
+            //header.delegate = self
             return header
         } else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HabitsCollectionViewCell.identifier, for: indexPath) as! HabitsCollectionViewCell
@@ -195,11 +199,38 @@ extension HabitsViewController: UICollectionViewDelegateFlowLayout {
             print("Посмотреть детали привычки?")
             let habitVCell = HabitDetailsTableViewCell()
             let habitDetailVC = HabitDetailsViewController()
-            habitVCell.index = indexPath
-            habitDetailVC.index = indexPath
+            habitDetailVC.delegate = self
+            habitVCell.indexPath = indexPath
+            habitDetailVC.indexPath = indexPath
             habitDetailVC.habit = store.habits[indexPath.row - 1]
             navigationController?.pushViewController(habitDetailVC, animated: true)
+        }
+    }
+}
 
+extension HabitsViewController: HabitDetailsViewControllerDelegate, HabitsStoreDelegate {
+    //удаляем ячейку с выбранной привычкой с экрана
+    func removeHabit(usingIndex indexPath: IndexPath) {
+        self.store.habits.remove(at: indexPath.row - 1)
+        self.collectionView.performBatchUpdates {
+            self.collectionView.deleteItems(at: [indexPath])
+            self.collectionView.reloadData()
+        }
+    }
+    
+    //добавляем ячейку с новой привычкой на экран
+    func addToHabit(data habit: Habit, isNewHabit: Bool?, usingIndex indexPath: IndexPath?) {
+        if let isNewHabit = isNewHabit {
+            if isNewHabit {
+                self.collectionView.performBatchUpdates {
+                    if let indexPath = indexPath {
+                        self.collectionView.insertItems(at: [indexPath])
+                        self.collectionView.reloadData()
+                    }
+                }
+            } else {
+                self.collectionView.reloadData()
+            }
         }
     }
 }

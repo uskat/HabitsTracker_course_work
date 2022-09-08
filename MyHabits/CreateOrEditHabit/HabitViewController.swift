@@ -1,18 +1,25 @@
 
 import UIKit
 
+protocol HabitViewControllerDelegate: AnyObject {
+    func removeHabit(usingIndex indexPath: IndexPath)
+    func addToHabit(data habit: Habit, isNewHabit: Bool?, usingIndex indexPath: IndexPath?)
+}
+
 class HabitViewController: UIViewController {
 
     //MARK: - PROPs
     var isNewHabit: Bool?
+    var isNameEdited: Bool?
+    var isColorChoosen: Bool?
     var isTimeChoosen: Bool?
-    var colorChoosen: UIColor?
-    var timeChoosen: Date?
-    var index: IndexPath?
+    var newColor: UIColor?
+    //var newTime: Date?
+    var indexPath: IndexPath?
     let store = HabitsStore.shared
+    weak var delegate: HabitViewControllerDelegate?
+    weak var delegateNew: HabitDetailsViewControllerDelegate? //HabitsStoreDelegate?
     
-    //weak var delegateDetail: CloseHabitVCDelegate?     //Эксперимент. Закрытие контроллера после удаления привычки
-    weak var delegateHabits: HabitsStoreDelegate?
     
     //MARK: - ITEMs
     //Заголовок "Название привычки"
@@ -118,30 +125,32 @@ class HabitViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         showBarItems()
+        isNameEdited = false
+        isColorChoosen = false
+        isTimeChoosen = false
         //Отображение данных о привычке
         if let isNewHabit = isNewHabit {
             if isNewHabit {    //Данные по умолчанию при создании новой привычки
-                isTimeChoosen = false
-                colorChoosen = initialHabitColor
-                animateTextOnTextField("Введите название привычки")  //анимация текста в UITextField при открытии VC
+                newColor = initialHabitColor
+                statusText = "Введите название привычки"
+                animateTextOnTextField(statusText)  //анимация текста в UITextField при открытии VC
                 colorOfHabitView.backgroundColor = initialHabitColor //цвет привычки по умолчанию (см.файл Constants)
                 let dateFormatter: DateFormatter = DateFormatter()   //время привычки по умолчанию (см.файл Constants)
                 dateFormatter.dateFormat = "HH:mm a"
                 timeOfHabitRightPart.text = dateFormatter.string(from: initialHabitTime)
             } else {            //Сохраненные данные уже существующей выбранной привычки
-                isTimeChoosen = true
-                if let index = index {
+                if let indexPath = indexPath {
                     //меняем цвет названия привычки
                     nameOfHabitField.attributedPlaceholder = NSAttributedString(
-                        string: store.habits[index.row - 1].name,
-                        attributes: [NSAttributedString.Key.foregroundColor: store.habits[index.row - 1].color]
+                        string: store.habits[indexPath.row - 1].name,
+                        attributes: [NSAttributedString.Key.foregroundColor: store.habits[indexPath.row - 1].color]
                     )
-                    colorOfHabitView.backgroundColor = store.habits[index.row - 1].color //ранее выбранный цвет
+                    colorOfHabitView.backgroundColor = store.habits[indexPath.row - 1].color //ранее выбранный цвет
                     //ранее установленное время
                     let dateFormatter: DateFormatter = DateFormatter()
                     dateFormatter.dateFormat = "HH:mm a"
-                    timeOfHabitRightPart.text = dateFormatter.string(from: store.habits[index.row - 1].date)
-                    datePicker.date = store.habits[index.row - 1].date
+                    timeOfHabitRightPart.text = dateFormatter.string(from: store.habits[indexPath.row - 1].date)
+                    datePicker.date = store.habits[indexPath.row - 1].date
                 }
             }
         }
@@ -166,42 +175,56 @@ class HabitViewController: UIViewController {
     
     //Обработка нажатия правой кнопки NavigationBar - Запись данных привычки и закрытие VC
     @objc private func saveAction() {
-        print("Сохраняем новую привычку!")
+        print("СОХРАНЯЕМ ПРИВЫЧКУ!")
+        let habit = Habit(name: statusText,
+                          date: selectedTimeReal,
+                          color: newColor ?? .black)
+        
         if let isNewHabit = isNewHabit {
             if isNewHabit {
-                if let colorChoosen = colorChoosen {
-                    print("...это новая привычка")
-                    let newHabit = Habit(name: statusText,
-                                         date: selectedTimeReal,
-                                         color: colorChoosen)
-                    store.habits.append(newHabit)
-                    store.save()
-                    statusText = "Введите название привычки" //Обнуляем содержимое в UITextField после сохранения привычки
-                    self.dismiss(animated: true)
-                    delegateHabits?.reload()
+                if let isNameEdited = isNameEdited {
+                    if isNameEdited {
+                        print("...это новая привычка")
+                        store.habits.append(habit)
+                        store.save()
+                        indexPath = IndexPath(item: store.habits.count, section: 0)
+                        self.dismiss(animated: true) {
+                            self.delegateNew?.addToHabit(data: habit,
+                                                         isNewHabit: self.isNewHabit,
+                                                         usingIndex: self.indexPath)
+                        }
+                    } else {
+                        shakeMeBaby(nameOfHabitField)
+                    }
                 }
-
             } else {
-                if let index = index {
-                    print("...это старая привычка")
-                    if statusText != "Введите название привычки" {
-                        store.habits[index.row - 1].name = statusText
+                print("...это старая привычка")
+                if let indexPath = indexPath {
+                    if let isNameEdited = isNameEdited {
+                        isNameEdited ? store.habits[indexPath.row - 1].name = statusText : print("Имя не изменилось")
                     }
-                    store.habits[index.row - 1].date = selectedTimeReal
-                    if let colorChoosen = colorChoosen {
-                        store.habits[index.row - 1].color = colorChoosen
+                    if let isColorChoosen = isColorChoosen {
+                        isColorChoosen ? store.habits[indexPath.row - 1].color = habit.color : print("Цвет не поменялся")
+                    }
+                    if let isTimeChoosen = isTimeChoosen {
+                        isTimeChoosen ? store.habits[indexPath.row - 1].date = habit.date : print("Дата не изменилась")
                     }
                     store.save()
-                    statusText = "Введите название привычки"  //Обнуляем содержимое в UITextField после сохранения привычки
-                    self.dismiss(animated: true)
+                    self.dismiss(animated: true) {
+                        self.delegate?.addToHabit(data: habit,
+                                                  isNewHabit: self.isNewHabit,
+                                                  usingIndex: self.indexPath)
+                    }
                 }
             }
         }
+        
     }
     
     //Сохраняем введенное название привычки в переменную statusText
     @objc private func changeNameOfHabit(_ textField: UITextField) {
         if let myText = textField.text {
+            isNameEdited = true
             statusText = myText
         }
     }
@@ -232,21 +255,18 @@ class HabitViewController: UIViewController {
         //Присваиваем выбранную дату переменным
         selectedTimeReal = sender.date
         selectedTime = dateFormatter.string(from: sender.date)
+        isTimeChoosen = true
     }
     
     //Обработка нажатия кнопки "Удалить привычку" с вызовом алерта
     @objc private func tapToRemoveHabit() {
+        guard let indexPath = indexPath else { return }
         let message = "Вы хотите удалить привычку \"" + String(1) + "\"?"
         let alert = UIAlertController(title: "Удалить привычку", message: message, preferredStyle: .alert)
-        let ok = UIAlertAction(title: "Удалить", style: .default) {
-            _ in self.dismiss(animated: true)
-            if let index = self.index {
-                self.store.habits.remove(at: index.row - 1)
-                self.delegateHabits?.reload()
+        let ok = UIAlertAction(title: "Удалить", style: .default) { _ in
+            self.dismiss(animated: true) {
+                self.delegate?.removeHabit(usingIndex: indexPath)
             }
-            statusText = "Введите название привычки"
-            //self.delegateDetail?.tapBack()             //Эксперимент. Закрытие контроллера после удаления привычки
-            //_ = self.navigationController?.popToRootViewController(animated: true)
             print("Удалить")
         }
         let cancel = UIAlertAction(title: "Отмена", style: .destructive) {
@@ -336,7 +356,7 @@ extension HabitViewController: UIColorPickerViewControllerDelegate {
     //  Called on every color selection done in the picker.
     func colorPickerViewControllerDidSelectColor(_ viewController: UIColorPickerViewController) {
         colorOfHabitView.backgroundColor = viewController.selectedColor
-        colorChoosen = viewController.selectedColor
-        //viewController.dismiss(animated: true)
+        newColor = viewController.selectedColor
+        isColorChoosen = true
     }
 }

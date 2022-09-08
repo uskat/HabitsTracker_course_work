@@ -5,7 +5,7 @@ import UIKit
 public var screenWidth: CGFloat = UIScreen.main.bounds.width
 public var screenHeight: CGFloat = UIScreen.main.bounds.height
 
-public let spaceOnTheSidesOfHabitsVC: CGFloat = 18
+public let spaceOnTheSidesOfHabitsVC: CGFloat = 16
 public let spaceOnTheSidesOfProgressViewCell: CGFloat = 12
 public let progressLength: CGFloat = screenWidth - 2 * (spaceOnTheSidesOfHabitsVC + spaceOnTheSidesOfProgressViewCell)
 

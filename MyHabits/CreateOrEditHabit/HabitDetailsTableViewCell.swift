@@ -3,7 +3,7 @@ import UIKit
 
 class HabitDetailsTableViewCell: UITableViewCell {
 
-    var index: IndexPath?
+    var indexPath: IndexPath?
     weak var delegate: HabitsStoreDelegate?
     
     //MARK: - ITEMs
@@ -58,10 +58,10 @@ class HabitDetailsTableViewCell: UITableViewCell {
         dateFormatter.locale = Locale(identifier: "ru_RU")
         //заменяем некоторые даты на их словесные значения
         switch dateFormatter.string(from: date) {
-            case dateFormatter.string(from: Date()):        habitDateLabel.text = "Сегодня"
-            case dateFormatter.string(from: Date() - (60*60*24)):        habitDateLabel.text = "Вчера"
-            case dateFormatter.string(from: Date() - (60*60*24) * 2):        habitDateLabel.text = "Позавчера"
-            default:            habitDateLabel.text = dateFormatter.string(from: date)
+            case dateFormatter.string(from: Date()):                    habitDateLabel.text = "Сегодня"
+            case dateFormatter.string(from: Date() - (60*60*24)):       habitDateLabel.text = "Вчера"
+            case dateFormatter.string(from: Date() - (60*60*24) * 2):   habitDateLabel.text = "Позавчера"
+            default:                                                    habitDateLabel.text = dateFormatter.string(from: date)
         }
         //отображение символа "checkmark" для выполненных привычек
         if isDateChecked {

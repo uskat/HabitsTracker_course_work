@@ -1,18 +1,17 @@
 
 import UIKit
 
-// Эксперимент. Создаем делегата для закрытия контроллера после удаления привычки в HabitViewController
-//protocol CloseHabitVCDelegate: AnyObject {
-//    var isReturn: Bool? { get set }
-//    func tapBack()
-//}
+protocol HabitDetailsViewControllerDelegate: AnyObject {
+    func removeHabit(usingIndex indexPath: IndexPath)
+    func addToHabit(data habit: Habit, isNewHabit: Bool?, usingIndex indexPath: IndexPath?)
+}
 
 class HabitDetailsViewController: UIViewController {
 
     var habit: Habit?
-    var index: IndexPath?
+    var indexPath: IndexPath?
     let store = HabitsStore.shared
-    //var isReturn: Bool?         //Эксперимент. Закрытие контроллера после удаления привычки
+    weak var delegate: HabitDetailsViewControllerDelegate?
     
     //Общее вью серого цвета с рамкой
     private var mainView: UIView = {
@@ -53,7 +52,6 @@ class HabitDetailsViewController: UIViewController {
         }
         showBarItems()
         showHabitTable()
-        //isReturn = false             //Эксперимент. Закрытие контроллера после удаления привычки
     }
 
 
@@ -64,18 +62,12 @@ class HabitDetailsViewController: UIViewController {
         navigationItem.rightBarButtonItem = rightButton
         navigationItem.rightBarButtonItem?.tintColor = habitPurpleColor
     }
-
-    //Эксперименты. Метод для закрытия данного контроллера, вызывалось в habitVC после удаления привычки
-//    internal func tapBack() {
-//        print("NavBar tapped")
-//        _ = self.navigationController?.popToRootViewController(animated: true)
-//    }
     
     @objc private func editHabit() {
         let habitVC = HabitViewController()
-        //habitVC.delegateDetail = self         //Эксперимент. Закрытие контроллера после удаления привычки
+        habitVC.delegate = self
         habitVC.isNewHabit = false
-        habitVC.index = index
+        habitVC.indexPath = indexPath
         let vc = UINavigationController(rootViewController: habitVC)
         habitVC.title = "Править"
         vc.modalPresentationStyle = .fullScreen
@@ -138,5 +130,17 @@ extension HabitDetailsViewController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    }
+}
+
+extension HabitDetailsViewController: HabitViewControllerDelegate {
+    func removeHabit(usingIndex indexPath: IndexPath) {
+        self.navigationController?.popToRootViewController(animated: true)
+        self.delegate?.removeHabit(usingIndex: indexPath)
+    }
+    
+    func addToHabit(data habit: Habit, isNewHabit: Bool?, usingIndex indexPath: IndexPath?) {
+        self.navigationController?.popToRootViewController(animated: true)
+        self.delegate?.addToHabit(data: habit, isNewHabit: isNewHabit, usingIndex: indexPath)
     }
 }
