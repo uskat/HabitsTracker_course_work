@@ -31,26 +31,6 @@ extension UIColor {
     //let color2 = UIColor(rgb: 0xFFFFFF, a: 0.5)
 }
 
-//Анимированное появление текста в поле UITextField
-extension UIView {
-    func fadeTransition(_ duration: CFTimeInterval) {
-        let animation = CATransition()
-        animation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
-        animation.type = CATransitionType.fade
-        animation.duration = duration
-        layer.add(animation, forKey: "kCATransitionFade")
-}   }
-extension UITextField {
-    func animate(newText: String, characterDelay: TimeInterval) {
-        DispatchQueue.main.async {
-            self.placeholder = ""
-            for (index, character) in newText.enumerated() {
-                DispatchQueue.main.asyncAfter(deadline: .now() + characterDelay * Double(index)) {
-                    self.placeholder?.append(character)
-                    self.fadeTransition(characterDelay) // это анимация проявления
-}   }   }   }   }
-
-// НЕ ИСПОЛЬЗУЕТСЯ. Планируется добавить функцию при создании новой привычки
 //Трясем текст в выбранном UITextField
 public func shakeMeBaby(_ shakedItem: UITextField) {
     let shake = CABasicAnimation(keyPath: "position")
@@ -74,6 +54,7 @@ public func shakeMeBaby(_ shakedItem: UITextField) {
 public func currentTime() -> String {
     let time = Date()
     let dateFormatter = DateFormatter()
+    dateFormatter.timeStyle = .none
     dateFormatter.dateFormat = "hh:mm"
     print("текущee время \(dateFormatter.string(from: time))")
     return dateFormatter.string(from: time)

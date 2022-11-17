@@ -14,14 +14,19 @@ class HabitViewController: UIViewController {
     var isColorChoosen: Bool?
     var isTimeChoosen: Bool?
     var newColor: UIColor?
-    //var newTime: Date?
     var indexPath: IndexPath?
     let store = HabitsStore.shared
     weak var delegate: HabitViewControllerDelegate?
     weak var delegateNew: HabitDetailsViewControllerDelegate? //HabitsStoreDelegate?
-    
+
     
     //MARK: - ITEMs
+    private let scrollHabitView: UIScrollView = {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.backgroundColor = .white
+        return $0
+    }(UIScrollView())
+    
     //Заголовок "Название привычки"
     private let nameOfHabitLabel: UILabel = {
         $0.translatesAutoresizingMaskIntoConstraints = false
@@ -93,10 +98,11 @@ class HabitViewController: UIViewController {
     }(UITextView())
     
     //Выбор времени привычки
-    private let datePicker: UIDatePicker = {
+    private lazy var datePicker: UIDatePicker = {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.timeZone = NSTimeZone.local
-        $0.backgroundColor = .systemGray5
+        //$0.frame = CGRectMake(0, 200, 310, 206)
+        //$0.backgroundColor = .systemGray5
         $0.datePickerMode = .time
         $0.preferredDatePickerStyle = .wheels
         $0.contentHorizontalAlignment = .center
@@ -128,12 +134,12 @@ class HabitViewController: UIViewController {
         isNameEdited = false
         isColorChoosen = false
         isTimeChoosen = false
+        print(indexPath)
         //Отображение данных о привычке
         if let isNewHabit = isNewHabit {
             if isNewHabit {    //Данные по умолчанию при создании новой привычки
                 newColor = initialHabitColor
                 statusText = "Введите название привычки"
-                animateTextOnTextField(statusText)  //анимация текста в UITextField при открытии VC
                 colorOfHabitView.backgroundColor = initialHabitColor //цвет привычки по умолчанию (см.файл Constants)
                 let dateFormatter: DateFormatter = DateFormatter()   //время привычки по умолчанию (см.файл Constants)
                 dateFormatter.dateFormat = "HH:mm a"
@@ -158,6 +164,14 @@ class HabitViewController: UIViewController {
 
     
     //MARK: - METHODs
+    //Метод вызывается, когда пользователь кликает на view за пределами TextField (убирает клавиатуру)
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if touches.first != nil {
+            view.endEditing(true)
+        }
+        super.touchesBegan(touches, with: event)
+    }
+    
     private func showBarItems() {
         let leftButton = UIBarButtonItem(title: "Отменить", style: .plain, target: self, action: #selector(cancelAction))
         let rightButton = UIBarButtonItem(title: "Сохранить", style: .plain, target: self, action: #selector(saveAction))
@@ -228,11 +242,7 @@ class HabitViewController: UIViewController {
             statusText = myText
         }
     }
-    
-    //анимация появления текста подсказки в поле UITextField
-    private func animateTextOnTextField(_ text: String) {
-        nameOfHabitField.animate(newText: text, characterDelay: 0.1)
-    }
+
     
     //MARK: - colorPicker func
     @objc func colorPicker(_ sender: UIButton) {
@@ -248,10 +258,8 @@ class HabitViewController: UIViewController {
     }
     
     @objc private func datePickerValueChanged(_ sender: UIDatePicker) {
-        // Create date formatter
-        let dateFormatter: DateFormatter = DateFormatter()
-        //Устанавливаем формат даты
-        dateFormatter.dateFormat = "hh:mm"
+        let dateFormatter: DateFormatter = DateFormatter()   // Create date formatter
+        dateFormatter.dateFormat = "hh:mm"   //Устанавливаем формат даты
         //Присваиваем выбранную дату переменным
         selectedTimeReal = sender.date
         selectedTime = dateFormatter.string(from: sender.date)

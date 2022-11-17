@@ -107,7 +107,8 @@ extension HabitDetailsViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        store.dates.count
+        print("количество строк \(store.dates.count)")
+        return store.dates.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

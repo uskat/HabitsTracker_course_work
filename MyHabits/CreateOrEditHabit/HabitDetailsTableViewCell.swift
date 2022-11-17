@@ -4,7 +4,7 @@ import UIKit
 class HabitDetailsTableViewCell: UITableViewCell {
 
     var indexPath: IndexPath?
-    weak var delegate: HabitsStoreDelegate?
+    //weak var delegate: HabitsStoreDelegate?
     
     //MARK: - ITEMs
     //ячейка с датой

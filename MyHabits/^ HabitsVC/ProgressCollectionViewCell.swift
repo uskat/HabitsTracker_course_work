@@ -4,6 +4,10 @@ import UIKit
 class ProgressCollectionViewCell: UICollectionViewCell {
     
     let store = HabitsStore.shared
+    private var percentOfProgress: Float {
+        self.store.todayProgress
+    }
+
     
     //MARK: - ITEMs
     //UIView ячейки прогресса за день
@@ -75,6 +79,11 @@ class ProgressCollectionViewCell: UICollectionViewCell {
     
     
     //MARK: - METHODs
+    func updateProgress() {
+        todayPercent.text = "\(Int(percentOfProgress * 100))%"
+        progressBar.setProgress(percentOfProgress, animated: true)
+    }
+    
     func showItems() {
         contentView.addSubview(todayProgressMainView)
         [todayStatusLabel, todayPercent,
@@ -124,6 +133,6 @@ class ProgressCollectionViewCell: UICollectionViewCell {
     func setupCell(_ progress: Float) {
         todayPercent.text = "\(Int(store.todayProgress * 100))%"
         //progressBar.progress = store.todayProgress
-        progressBar.setProgress(store.todayProgress, animated: true)
+        progressBar.setProgress(store.todayProgress, animated: false)
     }
 }

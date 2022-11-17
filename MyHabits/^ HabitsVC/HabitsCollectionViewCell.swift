@@ -3,7 +3,7 @@ import UIKit
 
 class HabitsCollectionViewCell: UICollectionViewCell {
     
-    var index: IndexPath?
+    var indexPath: IndexPath?
     var habit: Habit?
     weak var delegate: HabitsStoreDelegate?
     
@@ -66,13 +66,17 @@ class HabitsCollectionViewCell: UICollectionViewCell {
     //MARK: - METHODs
     //После нажатия на круглое поле в ячейке привычки устанавливаем её статус
     @objc private func tapOnHabitView() {
-        print("Установили статус привычки Выполнено")
+        print("Нажимаем на Статус")
         if let habit = habit {
             if !habit.isAlreadyTakenToday {
+                print("Установили статус привычки Выполнено")
                 let store = HabitsStore.shared
                 store.track(habit)
                 store.save()
                 delegate?.reload()
+                setupCell(habit)
+            } else {
+                print("Привычка уже имеет статус Выполнено")
             }
         }
     }
@@ -120,7 +124,7 @@ class HabitsCollectionViewCell: UICollectionViewCell {
         habitNameLabel.text = habit.name
         habitNameLabel.textColor = habit.color
         timeOfHabitUseLabel.text = habit.dateString
-        counterLabel.text = "Счётчик: \(habit.trackDates.count)"
+        counterLabel.text = "Счётчик: \(habit.trackDates.count), индекс ячейки: \(index)"
         if habit.isAlreadyTakenToday {          //Стиль ячейки Статуса для привычки, которая уже была выполнена
             statusOfHabitButton.backgroundColor = habit.color
             statusOfHabitButton.tintColor = .white

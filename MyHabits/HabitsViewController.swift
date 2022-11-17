@@ -89,13 +89,14 @@ class HabitsViewController: UIViewController {
         present(navBarController, animated: true)
     }
     
-    internal func reload() {   //Обновление констрейнтов (используется при обработке нажатия на кнопку изменения Статуса привычки)
-        self.collectionView.reloadData()
-        self.view.layoutIfNeeded()
-        self.collectionView.layoutIfNeeded()
-        collectionView.setNeedsLayout()
+    //Обновление констрейнтов (используется при обработке нажатия на кнопку изменения Статуса привычки)
+    internal func reload() {
+        //self.collectionView.reloadItems(at: [index])
+        let cell = self.collectionView.cellForItem(at: IndexPath(row: 0, section: 0)) as? ProgressCollectionViewCell
+        cell?.updateProgress()
+        cell?.layoutIfNeeded()
     }
-
+    
     private func showItems() {
         [todayLabelView, todayLabel, mainView].forEach { view.addSubview($0) }
         mainView.addSubview(collectionView)
@@ -136,12 +137,11 @@ extension HabitsViewController: UICollectionViewDataSource {
         if indexPath.row == 0 {
             let header = collectionView.dequeueReusableCell(withReuseIdentifier: ProgressCollectionViewCell.identifier, for: indexPath) as! ProgressCollectionViewCell
             header.setupCell(progress)
-            //header.delegate = self
             return header
         } else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HabitsCollectionViewCell.identifier, for: indexPath) as! HabitsCollectionViewCell
             cell.setupCell(store.habits[indexPath.row - 1])
-            cell.index = indexPath
+            cell.indexPath = indexPath
             cell.habit = store.habits[indexPath.row - 1]
             cell.delegate = self
             return cell
@@ -211,10 +211,12 @@ extension HabitsViewController: UICollectionViewDelegateFlowLayout {
 extension HabitsViewController: HabitDetailsViewControllerDelegate, HabitsStoreDelegate {
     //удаляем ячейку с выбранной привычкой с экрана
     func removeHabit(usingIndex indexPath: IndexPath) {
+        print("index при удалении \(indexPath)")
         self.store.habits.remove(at: indexPath.row - 1)
         self.collectionView.performBatchUpdates {
             self.collectionView.deleteItems(at: [indexPath])
             self.collectionView.reloadData()
+            self.reload()
         }
     }
     
@@ -224,12 +226,13 @@ extension HabitsViewController: HabitDetailsViewControllerDelegate, HabitsStoreD
             if isNewHabit {
                 self.collectionView.performBatchUpdates {
                     if let indexPath = indexPath {
+                        print("index при добавлении \(indexPath)")
                         self.collectionView.insertItems(at: [indexPath])
-                        self.collectionView.reloadData()
+                        self.reload()
                     }
                 }
-            } else {
-                self.collectionView.reloadData()
+//            } else {
+//                self.reload()
             }
         }
     }

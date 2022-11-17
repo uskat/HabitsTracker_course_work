@@ -14,7 +14,7 @@ class MainTabBarController: UITabBarController {
         setupControllers()
         
         //красим все бары в один цвет
-        UINavigationBar.appearance().backgroundColor = colorOfNavBar
+        //UINavigationBar.appearance().backgroundColor = colorOfNavBar
         //UIApplication.shared.statusBarUIView?.backgroundColor = colorOfNavBar
         UITabBar.appearance().tintColor = habitPurpleColor
         UITabBar.appearance().backgroundColor = colorOfTabBar
@@ -29,6 +29,7 @@ class MainTabBarController: UITabBarController {
         secondVC.tabBarItem.title = "Информация"
         secondVC.tabBarItem.image = UIImage(systemName: "person.crop.circle")
         secondVC.navigationItem.title = "Информация"
+        self.preferredStatusBarStyle
         let firstNavigationVC = UINavigationController(rootViewController: firstVC)
         let secondNavigationVC = UINavigationController(rootViewController: secondVC)
         viewControllers = [firstNavigationVC, secondNavigationVC]
