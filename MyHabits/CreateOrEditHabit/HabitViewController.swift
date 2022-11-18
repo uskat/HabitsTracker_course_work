@@ -17,7 +17,7 @@ class HabitViewController: UIViewController {
     var indexPath: IndexPath?
     let store = HabitsStore.shared
     weak var delegate: HabitViewControllerDelegate?
-    weak var delegateNew: HabitDetailsViewControllerDelegate? //HabitsStoreDelegate?
+    weak var delegateNew: HabitDetailsViewControllerDelegate?
 
     
     //MARK: - ITEMs
@@ -40,11 +40,11 @@ class HabitViewController: UIViewController {
     private var nameOfHabitField: UITextField = {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.font = UIFont.systemFont(ofSize: 17, weight: .regular)
-        $0.textColor = habitBlueColor
+        $0.textColor = HabitColor.blue
         $0.placeholder = "Введите название привычки"
-        $0.adjustsFontSizeToFitWidth = true         //уменьшение шрифта, если введенный текст не помещается
-        $0.minimumFontSize = 12                     //до какого значения уменьшается шрифт
-        $0.tintColor = habitPurpleColor
+        $0.adjustsFontSizeToFitWidth = true         ///уменьшение шрифта, если введенный текст не помещается
+        $0.minimumFontSize = 12                     ///до какого значения уменьшается шрифт
+        $0.tintColor = HabitColor.purple
         $0.addTarget(self, action: #selector(changeNameOfHabit), for: .editingChanged)
         return $0
     }(UITextField())
@@ -90,7 +90,7 @@ class HabitViewController: UIViewController {
     private var timeOfHabitRightPart: UITextView = {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.font = UIFont.systemFont(ofSize: 17, weight: .regular)
-        $0.textColor = habitPurpleColor
+        $0.textColor = HabitColor.purple
         $0.backgroundColor = .clear
         $0.text = "11:00 PM"
         $0.layer.sublayerTransform = CATransform3DMakeTranslation(-5, 0, 0)
@@ -101,7 +101,7 @@ class HabitViewController: UIViewController {
     private lazy var datePicker: UIDatePicker = {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.timeZone = NSTimeZone.local
-        //$0.frame = CGRectMake(0, 200, 310, 206)
+        $0.frame = CGRectMake(0, 200, 310, 206)
         //$0.backgroundColor = .systemGray5
         $0.datePickerMode = .time
         $0.preferredDatePickerStyle = .wheels
@@ -134,24 +134,23 @@ class HabitViewController: UIViewController {
         isNameEdited = false
         isColorChoosen = false
         isTimeChoosen = false
-        print(indexPath)
         //Отображение данных о привычке
         if let isNewHabit = isNewHabit {
             if isNewHabit {    //Данные по умолчанию при создании новой привычки
-                newColor = initialHabitColor
+                newColor = HabitColor.initial
                 statusText = "Введите название привычки"
-                colorOfHabitView.backgroundColor = initialHabitColor //цвет привычки по умолчанию (см.файл Constants)
-                let dateFormatter: DateFormatter = DateFormatter()   //время привычки по умолчанию (см.файл Constants)
+                colorOfHabitView.backgroundColor = HabitColor.initial ///цвет привычки по умолчанию (см.файл Constants)
+                let dateFormatter: DateFormatter = DateFormatter()   ///время привычки по умолчанию (см.файл Constants)
                 dateFormatter.dateFormat = "HH:mm a"
                 timeOfHabitRightPart.text = dateFormatter.string(from: initialHabitTime)
-            } else {            //Сохраненные данные уже существующей выбранной привычки
+            } else {            ///Сохраненные данные уже существующей выбранной привычки
                 if let indexPath = indexPath {
                     //меняем цвет названия привычки
                     nameOfHabitField.attributedPlaceholder = NSAttributedString(
                         string: store.habits[indexPath.row - 1].name,
                         attributes: [NSAttributedString.Key.foregroundColor: store.habits[indexPath.row - 1].color]
                     )
-                    colorOfHabitView.backgroundColor = store.habits[indexPath.row - 1].color //ранее выбранный цвет
+                    colorOfHabitView.backgroundColor = store.habits[indexPath.row - 1].color ///ранее выбранный цвет
                     //ранее установленное время
                     let dateFormatter: DateFormatter = DateFormatter()
                     dateFormatter.dateFormat = "HH:mm a"
@@ -176,9 +175,9 @@ class HabitViewController: UIViewController {
         let leftButton = UIBarButtonItem(title: "Отменить", style: .plain, target: self, action: #selector(cancelAction))
         let rightButton = UIBarButtonItem(title: "Сохранить", style: .plain, target: self, action: #selector(saveAction))
         navigationItem.leftBarButtonItem = leftButton
-        navigationItem.leftBarButtonItem?.tintColor = habitPurpleColor
+        navigationItem.leftBarButtonItem?.tintColor = HabitColor.purple
         navigationItem.rightBarButtonItem = rightButton
-        navigationItem.rightBarButtonItem?.tintColor = habitPurpleColor
+        navigationItem.rightBarButtonItem?.tintColor = HabitColor.purple
     }
     
     //Обработка нажатия левой кнопки NavigationBar - Отмена изменений и закрытие VC
@@ -208,7 +207,7 @@ class HabitViewController: UIViewController {
                                                          usingIndex: self.indexPath)
                         }
                     } else {
-                        shakeMeBaby(nameOfHabitField)
+                        shakeText(nameOfHabitField)
                     }
                 }
             } else {
@@ -250,7 +249,7 @@ class HabitViewController: UIViewController {
         //colorPickerVC.modalPresentationStyle = .popover
         //colorPickerVC.modalTransitionStyle = .crossDissolve
         present(colorPickerVC, animated: true)
-        colorPickerVC.selectedColor = initialHabitColor
+        colorPickerVC.selectedColor = HabitColor.initial
         
         //let popOverVC = colorPickerVC.popoverPresentationController
         //popOverVC?.sourceView = sender
@@ -291,58 +290,53 @@ class HabitViewController: UIViewController {
          timeOfHabitLabel, timeOfHabitLeftPart, timeOfHabitRightPart,
          datePicker, removeHabitButton].forEach { view.addSubview($0) }
         
-        let spaceTop: CGFloat = 21
-        let spaceOnTheSides: CGFloat = 16
-        let spaceBetweenItems: CGFloat = 7
-        let spaceBetweenGroups: CGFloat = 15
-        
         NSLayoutConstraint.activate([
             //Отображение заголовка "Название"
-            nameOfHabitLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: spaceTop),
-            nameOfHabitLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: spaceOnTheSides),
-            nameOfHabitLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -spaceOnTheSides),
+            nameOfHabitLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: Size.habitSpaceTop),
+            nameOfHabitLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: Size.habitSpace),
+            nameOfHabitLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -Size.habitSpace),
             nameOfHabitLabel.heightAnchor.constraint(equalToConstant: 18),
             
             //Отображение поля для ввода названия привычки
-            nameOfHabitField.topAnchor.constraint(equalTo: nameOfHabitLabel.bottomAnchor, constant: spaceBetweenItems),
-            nameOfHabitField.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: spaceOnTheSides),
-            nameOfHabitField.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -spaceOnTheSides),
+            nameOfHabitField.topAnchor.constraint(equalTo: nameOfHabitLabel.bottomAnchor, constant: Size.habitItemsSpace),
+            nameOfHabitField.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: Size.habitSpace),
+            nameOfHabitField.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -Size.habitSpace),
             nameOfHabitField.heightAnchor.constraint(equalToConstant: 22),
             
             //Отображение заголовка "Цвет"
-            colorOfHabitLabel.topAnchor.constraint(equalTo: nameOfHabitField.bottomAnchor, constant: spaceBetweenGroups),
-            colorOfHabitLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: spaceOnTheSides),
-            colorOfHabitLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -spaceOnTheSides),
+            colorOfHabitLabel.topAnchor.constraint(equalTo: nameOfHabitField.bottomAnchor, constant: Size.habitGroupsSpace),
+            colorOfHabitLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: Size.habitSpace),
+            colorOfHabitLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -Size.habitSpace),
             colorOfHabitLabel.heightAnchor.constraint(equalToConstant: 18),
             
             //Отображение круга с цветом привычки
-            colorOfHabitView.topAnchor.constraint(equalTo: colorOfHabitLabel.bottomAnchor, constant: spaceBetweenItems),
-            colorOfHabitView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: spaceOnTheSides),
+            colorOfHabitView.topAnchor.constraint(equalTo: colorOfHabitLabel.bottomAnchor, constant: Size.habitItemsSpace),
+            colorOfHabitView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: Size.habitSpace),
             colorOfHabitView.widthAnchor.constraint(equalToConstant: 30),
             colorOfHabitView.heightAnchor.constraint(equalToConstant: 30),
             
             //Отображение заголовка "Время"
-            timeOfHabitLabel.topAnchor.constraint(equalTo: colorOfHabitView.bottomAnchor, constant: spaceBetweenGroups),
-            timeOfHabitLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: spaceOnTheSides),
-            timeOfHabitLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -spaceOnTheSides),
+            timeOfHabitLabel.topAnchor.constraint(equalTo: colorOfHabitView.bottomAnchor, constant: Size.habitGroupsSpace),
+            timeOfHabitLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: Size.habitSpace),
+            timeOfHabitLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -Size.habitSpace),
             timeOfHabitLabel.heightAnchor.constraint(equalToConstant: 18),
             
             //Отображение текста "Каждый день в" перед выбранным временем
-            timeOfHabitLeftPart.topAnchor.constraint(equalTo: timeOfHabitLabel.bottomAnchor, constant: spaceBetweenItems),
-            timeOfHabitLeftPart.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: spaceOnTheSides),
+            timeOfHabitLeftPart.topAnchor.constraint(equalTo: timeOfHabitLabel.bottomAnchor, constant: Size.habitItemsSpace),
+            timeOfHabitLeftPart.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: Size.habitSpace),
             //timeOfHabitLeftPart.widthAnchor.constraint(equalToConstant: 130),
             timeOfHabitLeftPart.heightAnchor.constraint(equalToConstant: 30),
             
             //Отображение выбранного времени
-            timeOfHabitRightPart.topAnchor.constraint(equalTo: timeOfHabitLabel.bottomAnchor, constant: spaceBetweenItems),
+            timeOfHabitRightPart.topAnchor.constraint(equalTo: timeOfHabitLabel.bottomAnchor, constant: Size.habitItemsSpace),
             timeOfHabitRightPart.leadingAnchor.constraint(equalTo: timeOfHabitLeftPart.trailingAnchor, constant: 0),
-            timeOfHabitRightPart.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -spaceOnTheSides),
+            timeOfHabitRightPart.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -Size.habitSpace),
             timeOfHabitRightPart.heightAnchor.constraint(equalToConstant: 30),
             
             //Отображение UIDatePicker
-            datePicker.topAnchor.constraint(equalTo: timeOfHabitLeftPart.bottomAnchor, constant: spaceBetweenGroups),
-            datePicker.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: spaceOnTheSides),
-            datePicker.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -spaceOnTheSides),
+            datePicker.topAnchor.constraint(equalTo: timeOfHabitLeftPart.bottomAnchor, constant: Size.habitGroupsSpace),
+            datePicker.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: Size.habitSpace),
+            datePicker.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -Size.habitSpace),
             datePicker.heightAnchor.constraint(equalToConstant: 216),
             
             //Отображение кнопки "Удалить привычку"

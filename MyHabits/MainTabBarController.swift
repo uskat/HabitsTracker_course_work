@@ -14,22 +14,21 @@ class MainTabBarController: UITabBarController {
         setupControllers()
         
         //красим все бары в один цвет
-        //UINavigationBar.appearance().backgroundColor = colorOfNavBar
-        //UIApplication.shared.statusBarUIView?.backgroundColor = colorOfNavBar
-        UITabBar.appearance().tintColor = habitPurpleColor
-        UITabBar.appearance().backgroundColor = colorOfTabBar
+        //UINavigationBar.appearance().backgroundColor = UIColor.HabitColor.navBar
+        //UIApplication.shared.statusBarUIView?.backgroundColor = UIColor.HabitColor.navBar
+        UITabBar.appearance().tintColor = HabitColor.purple
+        UITabBar.appearance().backgroundColor = HabitColor.tabBar
     }
     
     
     //MARK: - METHODs
     func setupControllers() {
         firstVC.tabBarItem.title = "Привычки"
-        firstVC.tabBarItem.image = UIImage(systemName: "rectangle.grid.2x2")
-        //firstVC.navigationItem.title = "Сегодня"
+        firstVC.tabBarItem.image = UIImage(systemName: "rectangle.grid.1x2.fill")
+        firstVC.navigationItem.title = "Сегодня"
         secondVC.tabBarItem.title = "Информация"
-        secondVC.tabBarItem.image = UIImage(systemName: "person.crop.circle")
+        secondVC.tabBarItem.image = UIImage(systemName: "info.circle.fill")
         secondVC.navigationItem.title = "Информация"
-        self.preferredStatusBarStyle
         let firstNavigationVC = UINavigationController(rootViewController: firstVC)
         let secondNavigationVC = UINavigationController(rootViewController: secondVC)
         viewControllers = [firstNavigationVC, secondNavigationVC]

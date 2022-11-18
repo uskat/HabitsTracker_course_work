@@ -1,35 +1,48 @@
 
-import Foundation
 import UIKit
 
-public var screenWidth: CGFloat = UIScreen.main.bounds.width
-public var screenHeight: CGFloat = UIScreen.main.bounds.height
+public enum Size {
+    static var screenX = UIScreen.main.bounds.width
+    static var screenY = UIScreen.main.bounds.height
+    
+    static var habitsTodayLabelSpace: CGFloat = 14   ///HabitsVC: отступы по бокам заголовка Сегодня
+    static var habitsSpaceTop: CGFloat = 22   ///HabitsVC: отступ сверху
+    static var habitsSpace: CGFloat = 16   ///HabitsVC: отступы по бокам
+    static var habitsItemsSpace: CGFloat = 12   ///HabitsVC: отступы между ячейками (за искл. progressCollectionVC)
+    
+    static var progressSpace: CGFloat = 12   ///ProgressCollectionVC: отступы по бокам
+    static var habitsCellSpace: CGFloat = 20   ///HabitsCollectionVC: внешние отступы
+    
+    static var habitSpaceTop: CGFloat = 21   ///HabitVC: отступ сверху
+    static var habitSpace: CGFloat = 16   ///HabitVC: отступы по бокам
+    static var habitItemsSpace: CGFloat = 7   ///HabitVC: отступы между ячейками
+    static var habitGroupsSpace: CGFloat = 15   ///HabitVC: отступы между группами ячеек
+}
 
-public let spaceOnTheSidesOfHabitsVC: CGFloat = 16
-public let spaceOnTheSidesOfProgressViewCell: CGFloat = 12
-public let progressLength: CGFloat = screenWidth - 2 * (spaceOnTheSidesOfHabitsVC + spaceOnTheSidesOfProgressViewCell)
+public enum HabitColor {
+    //Типовые цвета, согласно макета
+    static var lightGray: UIColor  = UIColor(red: 242, green: 242, blue: 247, a: 1.0)
+    static var purple: UIColor = UIColor(red: 161, green: 22, blue: 204, a: 1.0)
+    static var blue: UIColor = UIColor(red: 41, green: 109, blue: 255, a: 1.0)
+    static var green: UIColor = UIColor(red: 29, green: 179, blue: 34, a: 1.0)
+    static var violet: UIColor = UIColor(red: 98, green: 54, blue: 255, a: 1.0)
+    static var orange: UIColor = UIColor(red: 255, green: 159, blue: 79, a: 1.0)
+    
+    //Цвета ключевых элементов интерфейса, согласно макета
+    static var tabBar: UIColor = .white
+    static var navBar: UIColor = .white
+    static var background: UIColor = UIColor(rgb: 0xF2F2F7)   ///цвет фона HabitsVС and HabitsDetailsVC
+    static var backroundProgressBar = UIColor(rgb: 0xD8D8D8)   ///цвет фона progressBar
+    static var separator: UIColor = UIColor(red: 60, green: 60, blue: 67, a: 0.29)
+    static var activityLabel: UIColor = UIColor(red: 60, green: 60, blue: 67, a: 0.60)
+    
+    //Цвет по умолчанию, который отображается при создании новой привычки
+    static var initial: UIColor { return orange }
+}
 
 public var statusText = "Введите название привычки"
-
-//Типовые цвета, согласно макета
-public let habitLightGrayColor = UIColor(red: 242, green: 242, blue: 247, a: 1.0)
-public let habitPurpleColor = UIColor(red: 161, green: 22, blue: 204, a: 1.0)
-public let habitBlueColor = UIColor(red: 41, green: 109, blue: 255, a: 1.0)
-public let habitGreenColor = UIColor(red: 29, green: 179, blue: 34, a: 1.0)
-public let habitVioletColor = UIColor(red: 98, green: 54, blue: 255, a: 1.0)
-public let habitOrangeColor = UIColor(red: 255, green: 159, blue: 79, a: 1.0)
-
-//Цвета ключевых элементов интерфейса, согласно макета
-public let colorOfTabBar = UIColor(red: 247, green: 247, blue: 247, a: 0.8)
-public let colorOfNavBar = UIColor(red: 249, green: 249, blue: 249, a: 0.94)
-public let backgroundColorOfHabitsVC = UIColor(rgb: 0xF2F2F7)
-public let colorOfSeparator = UIColor(red: 60, green: 60, blue: 67, a: 0.29)
-public let colorOfActivityLabel = UIColor(rgb: 0x3C3C43, a: 0.6)
-
 public var selectedTime: String = ""
 public var selectedTimeReal: Date = Date()
-
-let initialHabitColor: UIColor = habitOrangeColor     //Цвет по умолчанию, который отображается при создании новой привычки
 let initialHabitTime: Date = Date()
 
 

@@ -17,9 +17,9 @@ class HabitDetailsTableViewCell: UITableViewCell {
     //поле для отметки, в том случае, если привычка была выполнена
     private var habitDateIsChecked: UIImageView = {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.image = UIImage(systemName: "checkmark")
         $0.contentMode = .center
-        $0.tintColor = habitPurpleColor
+        $0.tintColor = HabitColor.purple
+        $0.image = UIImage(systemName: "checkmark")
         return $0
     }(UIImageView())
 

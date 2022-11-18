@@ -44,28 +44,11 @@ class ProgressCollectionViewCell: UICollectionViewCell {
         $0.layer.sublayers![1].cornerRadius = 5
         $0.subviews[1].clipsToBounds = true
         //$0.setProgress(0.75, animated: true)
-        $0.trackTintColor = UIColor(rgb: 0xD8D8D8)
-        $0.tintColor = habitPurpleColor
+        $0.trackTintColor = HabitColor.backroundProgressBar
+        $0.tintColor = HabitColor.purple
         return $0
     }(UIProgressView(progressViewStyle: .bar))
-    
-    //Графическое отображение прогресса выполнения привычек за день
-    //
-//    private var todayProgressBarBackground: UIView = {
-//        $0.translatesAutoresizingMaskIntoConstraints = false
-//        $0.layer.cornerRadius = 5
-//        $0.backgroundColor = UIColor(rgb: 0xD8D8D8)
-//        return $0
-//    }(UIView())
-//
-//    //(см.выше)
-//    private var todayProgressBarForeground: UIView = {
-//        $0.translatesAutoresizingMaskIntoConstraints = false
-//        $0.layer.cornerRadius = 5
-//        $0.backgroundColor = habitPurpleColor
-//        return $0
-//    }(UIView())
-    
+
     
     //MARK: - INITs
     override init(frame: CGRect) {
@@ -86,11 +69,7 @@ class ProgressCollectionViewCell: UICollectionViewCell {
     
     func showItems() {
         contentView.addSubview(todayProgressMainView)
-        [todayStatusLabel, todayPercent,
-         progressBar
-        /*todayProgressBarBackground, todayProgressBarForeground*/].forEach { todayProgressMainView.addSubview($0) }
-        
-        let spaceOnTheSides: CGFloat = spaceOnTheSidesOfProgressViewCell
+        [todayStatusLabel, todayPercent, progressBar].forEach { todayProgressMainView.addSubview($0) }
         
         NSLayoutConstraint.activate([
             //Общая UIView ячейки прогресса
@@ -102,31 +81,20 @@ class ProgressCollectionViewCell: UICollectionViewCell {
             //Отображение поля с числовым значением процента выполнения привычек за день
             todayPercent.topAnchor.constraint(equalTo: todayProgressMainView.topAnchor, constant: 10),
             todayPercent.widthAnchor.constraint(equalToConstant: 50),
-            todayPercent.trailingAnchor.constraint(equalTo: todayProgressMainView.trailingAnchor, constant: -spaceOnTheSides),
+            todayPercent.trailingAnchor.constraint(equalTo: todayProgressMainView.trailingAnchor, constant: -Size.progressSpace),
             todayPercent.heightAnchor.constraint(equalToConstant: 18),
             
             //Отображение заголовка "Все получится!"
             todayStatusLabel.topAnchor.constraint(equalTo: todayProgressMainView.topAnchor, constant: 10),
-            todayStatusLabel.leadingAnchor.constraint(equalTo: todayProgressMainView.leadingAnchor, constant: spaceOnTheSides),
+            todayStatusLabel.leadingAnchor.constraint(equalTo: todayProgressMainView.leadingAnchor, constant: Size.progressSpace),
             todayStatusLabel.trailingAnchor.constraint(equalTo: todayPercent.leadingAnchor),
             todayStatusLabel.heightAnchor.constraint(equalToConstant: 18),
             
             //ProgressBar
             progressBar.topAnchor.constraint(equalTo: todayProgressMainView.topAnchor, constant: 38),
-            progressBar.leadingAnchor.constraint(equalTo: todayProgressMainView.leadingAnchor, constant: spaceOnTheSides),
-            progressBar.trailingAnchor.constraint(equalTo: todayProgressMainView.trailingAnchor, constant: -spaceOnTheSides),
-            progressBar.heightAnchor.constraint(equalToConstant: 7),
-            
-            //графическое отображение прогресса выполнения привычек за день
-//            todayProgressBarBackground.topAnchor.constraint(equalTo: todayProgressMainView.topAnchor, constant: 38),
-//            todayProgressBarBackground.leadingAnchor.constraint(equalTo: todayProgressMainView.leadingAnchor, constant: spaceOnTheSides),
-//            todayProgressBarBackground.trailingAnchor.constraint(equalTo: todayProgressMainView.trailingAnchor, constant: -spaceOnTheSides),
-//            todayProgressBarBackground.heightAnchor.constraint(equalToConstant: 7),
-//
-//            todayProgressBarForeground.topAnchor.constraint(equalTo: todayProgressMainView.topAnchor, constant: 38),
-//            todayProgressBarForeground.leadingAnchor.constraint(equalTo: todayProgressMainView.leadingAnchor, constant: spaceOnTheSides),
-//            todayProgressBarForeground.trailingAnchor.constraint(equalTo: todayProgressMainView.trailingAnchor, constant: -spaceOnTheSides - progressLength * (1.0 - Double(store.todayProgress))),
-//            todayProgressBarForeground.heightAnchor.constraint(equalToConstant: 7),
+            progressBar.leadingAnchor.constraint(equalTo: todayProgressMainView.leadingAnchor, constant: Size.progressSpace),
+            progressBar.trailingAnchor.constraint(equalTo: todayProgressMainView.trailingAnchor, constant: -Size.progressSpace),
+            progressBar.heightAnchor.constraint(equalToConstant: 7)
             ])
     }
     

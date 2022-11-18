@@ -6,19 +6,19 @@ class InfoViewController: UIViewController {
     private lazy var tableView: UITableView = {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.layer.borderWidth = 1
-        $0.layer.borderColor = colorOfSeparator.cgColor
+        $0.layer.borderColor = HabitColor.separator.cgColor
         $0.separatorColor = .clear
         $0.dataSource = self
         $0.delegate = self
+        $0.backgroundColor = .white
         $0.register(InfoTableViewCell.self, forCellReuseIdentifier: InfoTableViewCell.identifier)
         return $0
-    }(UITableView(frame: .zero, style: .plain))
+    }(UITableView(frame: .zero, style: .grouped))
     
     
     //MARK: - INITs
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
         show()
     }
 
@@ -28,7 +28,7 @@ class InfoViewController: UIViewController {
         view.addSubview(tableView)
         
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
@@ -63,11 +63,16 @@ extension InfoViewController: UITableViewDataSource {
 
 //MARK: - UITableViewDelegate
 extension InfoViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        UITableView.automaticDimension
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        16
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        nil
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        UITableView.automaticDimension
     }
 }
 

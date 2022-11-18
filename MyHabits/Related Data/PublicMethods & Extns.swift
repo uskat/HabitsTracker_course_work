@@ -1,6 +1,5 @@
 import Foundation
 import UIKit
-import AVFoundation
 
 //Автоматическое присвоение имени идентфикатора ячейки для таблиц/коллекций
 extension UIView {
@@ -32,7 +31,7 @@ extension UIColor {
 }
 
 //Трясем текст в выбранном UITextField
-public func shakeMeBaby(_ shakedItem: UITextField) {
+public func shakeText(_ shakedItem: UITextField) {
     let shake = CABasicAnimation(keyPath: "position")
     let xDelta = CGFloat(3)
     shake.duration = 0.07

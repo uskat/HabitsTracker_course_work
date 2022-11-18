@@ -16,33 +16,17 @@ class HabitsViewController: UIViewController {
     private lazy var navigationBarButton: UIBarButtonItem = {
         return $0
     }(UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(tapAddHabbit)))
-
-    //UIView под заголовок "Сегодня"
-    private var todayLabelView: UIView = {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.backgroundColor = colorOfNavBar
-        return $0
-    }(UIView())
-    
-    //Заголовок "Сегодня"
-    private var todayLabel: UILabel = {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.font = UIFont.systemFont(ofSize: 34, weight: .bold)
-        $0.backgroundColor = colorOfNavBar
-        $0.text = "Сегодня"
-        return $0
-    }(UILabel())
     
     //основное view под коллекцию привычек
     private var mainView: UIView = {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.backgroundColor = backgroundColorOfHabitsVC
-        $0.layer.borderColor = colorOfSeparator.cgColor
+        $0.backgroundColor = HabitColor.background
+        $0.layer.borderColor = HabitColor.separator.cgColor
         $0.layer.borderWidth = 1
         return $0
     }(UIView())
     
-    //Колекция (закомментирован код для создания хедера коллекции)
+    //Коллекция (закомментирован код для создания хедера коллекции)
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -60,7 +44,8 @@ class HabitsViewController: UIViewController {
     //MARK: - INITs
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = backgroundColorOfHabitsVC
+        navigationController?.navigationBar.prefersLargeTitles = true
+        view.backgroundColor = HabitColor.background
         addNavigationBarButton()
         showItems()
         print("П,оехали!")
@@ -80,9 +65,9 @@ class HabitsViewController: UIViewController {
         let habitVC = HabitViewController()
         let habitDetailsVC = HabitDetailsViewController()
         let navBarController = UINavigationController(rootViewController: habitVC)
-        navBarController.modalPresentationStyle = .fullScreen   //принудительное отображение модального окна в полный экран
+        navBarController.modalPresentationStyle = .fullScreen   ///принудительное отображение модального окна в полный экран
         habitDetailsVC.delegate = self
-        habitVC.delegateNew = self   //делегат для обработки отображения новой привычки
+        habitVC.delegateNew = self   ///делегат для обработки отображения новой привычки
         habitVC.title = "Создать"
         habitVC.isNewHabit = true
         habitVC.removeHabitButton.isHidden = true
@@ -91,30 +76,17 @@ class HabitsViewController: UIViewController {
     
     //Обновление констрейнтов (используется при обработке нажатия на кнопку изменения Статуса привычки)
     internal func reload() {
-        //self.collectionView.reloadItems(at: [index])
         let cell = self.collectionView.cellForItem(at: IndexPath(row: 0, section: 0)) as? ProgressCollectionViewCell
         cell?.updateProgress()
-        cell?.layoutIfNeeded()
+        //cell?.layoutIfNeeded()
     }
     
     private func showItems() {
-        [todayLabelView, todayLabel, mainView].forEach { view.addSubview($0) }
+        view.addSubview(mainView)
         mainView.addSubview(collectionView)
-
-        let spaceOnTheSides: CGFloat = 14
         
         NSLayoutConstraint.activate([
-            todayLabelView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            todayLabelView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            todayLabelView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            todayLabelView.heightAnchor.constraint(equalToConstant: 52),
-        
-            todayLabel.leadingAnchor.constraint(equalTo: todayLabelView.leadingAnchor, constant: spaceOnTheSides),
-            todayLabel.trailingAnchor.constraint(equalTo: todayLabelView.trailingAnchor, constant: -spaceOnTheSides),
-            todayLabel.heightAnchor.constraint(equalToConstant: 40),
-            todayLabel.bottomAnchor.constraint(equalTo: todayLabelView.bottomAnchor, constant: -8),
-            
-            mainView.topAnchor.constraint(equalTo: todayLabelView.bottomAnchor),
+            mainView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             mainView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             mainView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             mainView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
@@ -125,7 +97,6 @@ class HabitsViewController: UIViewController {
             collectionView.bottomAnchor.constraint(equalTo: mainView.bottomAnchor)
             ])
     }
-    
 }
 
 //MARK: - UICollectionViewDataSource
@@ -152,9 +123,6 @@ extension HabitsViewController: UICollectionViewDataSource {
 //MARK: - UICollectionViewDelegateFlowLayout
 extension HabitsViewController: UICollectionViewDelegateFlowLayout {
     
-    private var inSpace: CGFloat { return 12 } //расстояние между ячейками в коллекции
-    private var outSpaceOntheSides: CGFloat { return spaceOnTheSidesOfHabitsVC } //отступ справа/слева между ячейкой и краем экрана
-    
     //Код для хедера коллекции привычек.
     /*
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
@@ -175,21 +143,19 @@ extension HabitsViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if indexPath.row == 0 {
             //задаем ширину ячейки: ширина экрана минус 2 отступа с каждой стороны
-            return CGSize(width: screenWidth - 2 * outSpaceOntheSides, height: 60)
+            return CGSize(width: Size.screenX - 2 * Size.habitsSpace, height: 60)
         } else {
-            return CGSize(width: screenWidth - 2 * outSpaceOntheSides, height: 130)
+            return CGSize(width: Size.screenX - 2 * Size.habitsSpace, height: 130)
         }
     }
+
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        inSpace
+        Size.habitsItemsSpace   ///расстояние между ячейками в коллекции
     }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        inSpace
-    }
-    
+      
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        UIEdgeInsets(top: inSpace, left: inSpace, bottom: inSpace, right: inSpace)
+        UIEdgeInsets(top: Size.habitsSpaceTop, left: 0,
+                     bottom: Size.habitsSpaceTop, right: 0)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -231,8 +197,6 @@ extension HabitsViewController: HabitDetailsViewControllerDelegate, HabitsStoreD
                         self.reload()
                     }
                 }
-//            } else {
-//                self.reload()
             }
         }
     }

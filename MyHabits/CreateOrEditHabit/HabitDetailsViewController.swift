@@ -16,8 +16,8 @@ class HabitDetailsViewController: UIViewController {
     //Общее вью серого цвета с рамкой
     private var mainView: UIView = {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.backgroundColor = backgroundColorOfHabitsVC
-        $0.layer.borderColor = colorOfSeparator.cgColor
+        $0.backgroundColor = HabitColor.background
+        $0.layer.borderColor = HabitColor.separator.cgColor
         $0.layer.borderWidth = 1
         return $0
     }(UIView())
@@ -26,7 +26,7 @@ class HabitDetailsViewController: UIViewController {
     private var activityLabel: UILabel = {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.font = UIFont.systemFont(ofSize: 13, weight: .semibold)
-        $0.textColor = colorOfActivityLabel
+        $0.textColor = HabitColor.activityLabel
         $0.text = "АКТИВНОСТЬ"
         return $0
     }(UILabel())
@@ -45,7 +45,7 @@ class HabitDetailsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        navigationController?.navigationBar.tintColor = habitPurpleColor
+        navigationController?.navigationBar.tintColor = HabitColor.purple
         //назначаем заголовку переданное из другого контроллера имя
         if let habit = habit {
             title = habit.name
@@ -60,7 +60,7 @@ class HabitDetailsViewController: UIViewController {
     private func showBarItems() {
         let rightButton = UIBarButtonItem(title: "Править", style: .plain, target: self, action: #selector(editHabit))
         navigationItem.rightBarButtonItem = rightButton
-        navigationItem.rightBarButtonItem?.tintColor = habitPurpleColor
+        navigationItem.rightBarButtonItem?.tintColor = HabitColor.purple
     }
     
     @objc private func editHabit() {

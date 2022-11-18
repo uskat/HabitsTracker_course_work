@@ -85,8 +85,6 @@ class HabitsCollectionViewCell: UICollectionViewCell {
         contentView.addSubview(habitsElementsView)
         [statusOfHabitButton, habitNameLabel, timeOfHabitUseLabel, counterLabel].forEach { habitsElementsView.addSubview($0) }
         
-        let outSpace: CGFloat = 20
-        
         NSLayoutConstraint.activate([
             //Отображение общей вью ячейки привычки для коллекции
             habitsElementsView.topAnchor.constraint(equalTo: contentView.topAnchor),
@@ -95,8 +93,8 @@ class HabitsCollectionViewCell: UICollectionViewCell {
             habitsElementsView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             
             //Отображение названия привычки
-            habitNameLabel.topAnchor.constraint(equalTo: habitsElementsView.topAnchor, constant: outSpace),
-            habitNameLabel.leadingAnchor.constraint(equalTo: habitsElementsView.leadingAnchor, constant: outSpace),
+            habitNameLabel.topAnchor.constraint(equalTo: habitsElementsView.topAnchor, constant: Size.habitsCellSpace),
+            habitNameLabel.leadingAnchor.constraint(equalTo: habitsElementsView.leadingAnchor, constant: Size.habitsCellSpace),
             habitNameLabel.widthAnchor.constraint(equalToConstant: 220),
             habitNameLabel.heightAnchor.constraint(equalToConstant: 22),
             
@@ -107,7 +105,7 @@ class HabitsCollectionViewCell: UICollectionViewCell {
             timeOfHabitUseLabel.heightAnchor.constraint(equalToConstant: 16),
             
             //Отображение счетчика выполнения привычки
-            counterLabel.bottomAnchor.constraint(equalTo: habitsElementsView.bottomAnchor, constant: -outSpace),
+            counterLabel.bottomAnchor.constraint(equalTo: habitsElementsView.bottomAnchor, constant: -Size.habitsCellSpace),
             counterLabel.leadingAnchor.constraint(equalTo: habitNameLabel.leadingAnchor),
             counterLabel.widthAnchor.constraint(equalToConstant: 220),
             counterLabel.heightAnchor.constraint(equalToConstant: 18),
@@ -124,13 +122,13 @@ class HabitsCollectionViewCell: UICollectionViewCell {
         habitNameLabel.text = habit.name
         habitNameLabel.textColor = habit.color
         timeOfHabitUseLabel.text = habit.dateString
-        counterLabel.text = "Счётчик: \(habit.trackDates.count), индекс ячейки: \(index)"
-        if habit.isAlreadyTakenToday {          //Стиль ячейки Статуса для привычки, которая уже была выполнена
+        counterLabel.text = "Счётчик: \(habit.trackDates.count)"
+        if habit.isAlreadyTakenToday {          ///Стиль ячейки Статуса для привычки, которая уже была выполнена
             statusOfHabitButton.backgroundColor = habit.color
             statusOfHabitButton.tintColor = .white
             statusOfHabitButton.layer.borderWidth = 2
             statusOfHabitButton.layer.borderColor = habit.color.cgColor
-        } else {                                //Стиль ячейки Статуса для привычки, которая ещё НЕ была выполнена
+        } else {                                ///Стиль ячейки Статуса для привычки, которая ещё НЕ была выполнена
             statusOfHabitButton.backgroundColor = .white
             statusOfHabitButton.tintColor = .clear
             statusOfHabitButton.layer.borderWidth = 2
