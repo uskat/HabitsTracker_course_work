@@ -30,31 +30,11 @@ extension UIColor {
     //let color2 = UIColor(rgb: 0xFFFFFF, a: 0.5)
 }
 
-//Трясем текст в выбранном UITextField
-public func shakeText(_ shakedItem: UITextField) {
-    let shake = CABasicAnimation(keyPath: "position")
-    let xDelta = CGFloat(3)
-    shake.duration = 0.07
-    shake.repeatCount = 4
-    shake.autoreverses = true
-
-    let from_point = CGPoint(x: shakedItem.center.x - xDelta, y: shakedItem.center.y)
-    let from_value = NSValue(cgPoint: from_point)
-
-    let to_point = CGPoint(x: shakedItem.center.x + xDelta, y: shakedItem.center.y)
-    let to_value = NSValue(cgPoint: to_point)
-
-    shake.fromValue = from_value
-    shake.toValue = to_value
-    shake.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
-    shakedItem.layer.add(shake, forKey: "position")
-}
-
-public func currentTime() -> String {
-    let time = Date()
-    let dateFormatter = DateFormatter()
-    dateFormatter.timeStyle = .none
-    dateFormatter.dateFormat = "hh:mm"
-    print("текущee время \(dateFormatter.string(from: time))")
-    return dateFormatter.string(from: time)
-}
+//public func currentTime() -> String {
+//    let time = Date()
+//    let dateFormatter = DateFormatter()
+//    dateFormatter.timeStyle = .none
+//    dateFormatter.dateFormat = "hh:mm"
+//    print("текущee время \(dateFormatter.string(from: time))")
+//    return dateFormatter.string(from: time)
+//}
