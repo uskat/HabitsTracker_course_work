@@ -13,12 +13,13 @@ class InfoViewController: UIViewController {
         $0.backgroundColor = .white
         $0.register(InfoTableViewCell.self, forCellReuseIdentifier: InfoTableViewCell.identifier)
         return $0
-    }(UITableView(frame: .zero, style: .grouped))
+    }(UITableView(frame: .zero, style: .plain))
     
     
     //MARK: - INITs
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .white
         show()
     }
 
@@ -63,14 +64,6 @@ extension InfoViewController: UITableViewDataSource {
 
 //MARK: - UITableViewDelegate
 extension InfoViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        16
-    }
-    
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        nil
-    }
-    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         UITableView.automaticDimension
     }

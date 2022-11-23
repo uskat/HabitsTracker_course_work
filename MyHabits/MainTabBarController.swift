@@ -14,7 +14,7 @@ class MainTabBarController: UITabBarController {
         setupControllers()
         
         //красим все бары в один цвет
-        //UINavigationBar.appearance().backgroundColor = UIColor.HabitColor.navBar
+        //UINavigationBar.appearance().backgroundColor = HabitColor.navBar
         //UIApplication.shared.statusBarUIView?.backgroundColor = UIColor.HabitColor.navBar
         UITabBar.appearance().tintColor = HabitColor.purple
         UITabBar.appearance().backgroundColor = HabitColor.tabBar

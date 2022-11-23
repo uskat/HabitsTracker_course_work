@@ -288,7 +288,7 @@ class HabitViewController: UIViewController {
     //Обработка нажатия кнопки "Удалить привычку" с вызовом алерта
     @objc private func tapToRemoveHabit() {
         guard let indexPath = indexPath else { return }
-        let message = "Вы хотите удалить привычку \"" + String(1) + "\"?"
+        let message = "Вы хотите удалить привычку \"" + String(store.habits[indexPath.row - 1].name) + "\"?"
         let alert = UIAlertController(title: "Удалить привычку", message: message, preferredStyle: .alert)
         let ok = UIAlertAction(title: "Удалить", style: .default) { _ in
             self.dismiss(animated: true) {
